@@ -1,4 +1,5 @@
 import datetime
+from random import choices
 
 from django.db import models
 from django.utils import timezone
@@ -17,11 +18,16 @@ class Question(models.Model):
     def total_votes(self):
         votes = 0
         choices = self.choice_set.all()
-        # Faça um laço para somar todos os votos.
+        for choice in choices:
+            votes += choice.votes
         return votes
 
     def has_votes(self):
-        # Utilize uma condição para retornar se essa Questão tem ou não votos.
+        choices = self.choice_set.all()
+
+        for choice in choices:
+            if choice.votes > 0:
+                return True
         return False
 
 
